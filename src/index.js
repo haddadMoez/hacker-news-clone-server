@@ -4,13 +4,34 @@ const { ApolloServer } = require('apollo-server');
 const typeDefs = `
   type Query {
     info: String!
+    feed: [Link!]!
+  }
+
+  type Link {
+    id: ID!
+    description: String!
+    url: String!
   }
 `;
+
+let links = [
+  {
+    id: 'link-0',
+    url: 'www.google.com',
+    description: 'HelloWorld!',
+  },
+];
 
 // Implementation of the GraphQL schema
 const resolvers = {
   Query: {
     info: () => `This is the API of an example of GraphQL server`,
+    feed: () => links,
+  },
+  Link: {
+    id: (parent) => parent.id,
+    description: (parent) => parent.description,
+    url: (parent) => parent.url,
   },
 };
 
