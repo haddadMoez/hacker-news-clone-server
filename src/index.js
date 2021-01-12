@@ -3,7 +3,7 @@ const logger = require('pino')()
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-require('./db');
+require('./utils/db');
 
 let links = [
   {
