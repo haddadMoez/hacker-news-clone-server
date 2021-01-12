@@ -1,6 +1,8 @@
 const { ApolloServer } = require('apollo-server');
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
+require('./db');
 
 let links = [
   {
