@@ -1,4 +1,5 @@
 const { ApolloServer } = require('apollo-server');
+const logger = require('pino')()
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -38,4 +39,4 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server.listen().then(({ url }) => console.log(`Server is running on ${url}`));
+server.listen().then(({ url }) => logger.info(`Server is running on ${url}`));

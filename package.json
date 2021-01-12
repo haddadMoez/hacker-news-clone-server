@@ -29,6 +29,7 @@
   "dependencies": {
     "apollo-server": "^2.19.1",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.11.11"
+    "mongoose": "^5.11.11",
+    "pino": "^6.10.0"
   }
 }
