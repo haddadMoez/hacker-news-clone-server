@@ -1,18 +1,6 @@
 const { ApolloServer } = require('apollo-server');
-
-// Definition of the GraphQL schema
-const typeDefs = `
-  type Query {
-    info: String!
-    feed: [Link!]!
-  }
-
-  type Link {
-    id: ID!
-    description: String!
-    url: String!
-  }
-`;
+const fs = require('fs');
+const path = require('path');
 
 let links = [
   {
@@ -21,6 +9,7 @@ let links = [
     description: 'HelloWorld!',
   },
 ];
+let idCount = links.length;
 
 // Implementation of the GraphQL schema
 const resolvers = {
@@ -28,16 +17,22 @@ const resolvers = {
     info: () => `This is the API of an example of GraphQL server`,
     feed: () => links,
   },
-  Link: {
-    id: (parent) => parent.id,
-    description: (parent) => parent.description,
-    url: (parent) => parent.url,
+  Mutation: {
+    post: (parent, args) => {
+      const link = {
+        id: `link-${idCount++}`,
+        description: args.description,
+        url: args.url,
+      };
+      links.push(link);
+      return link;
+    },
   },
 };
 
 // the schema and resolvers are bundled and passed to ApolloServer
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
   resolvers,
 });
 
