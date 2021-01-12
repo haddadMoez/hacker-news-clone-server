@@ -1,5 +1,5 @@
 const { ApolloServer } = require('apollo-server');
-const logger = require('pino')()
+const logger = require('pino')();
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +14,7 @@ let links = [
 ];
 let idCount = links.length;
 
-// Implementation of the GraphQL schema
+// Implementation of the resolvers
 const resolvers = {
   Query: {
     info: () => `This is the API of an example of GraphQL server`,
