@@ -9,4 +9,4 @@ const voteSchema = new Schema(
   { timestamps: true }
 );
 
-exports.Vote = mongoose.model('Vote', voteSchema);
+export const Vote = mongoose.model('Vote', voteSchema);

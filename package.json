@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Info: no test specified\"",
-    "start": "nodemon src/index.js",
+    "start": "nodemon --exec babel-node -- src/index.js",
     "lint": "eslint --ext '.js'"
   },
   "husky": {
@@ -18,6 +18,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "eslint": "^7.17.0",
@@ -33,7 +36,6 @@
     "joi": "^17.3.0",
     "joigoose": "^8.0.0",
     "mongoose": "^5.11.11",
-    "nodemon": "^2.0.7",
-    "pino": "^6.10.0"
+    "nodemon": "^2.0.7"
   }
 }

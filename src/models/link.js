@@ -19,4 +19,4 @@ linkSchema.path('url').validate((url) => {
   return urlRegex.test(url);
 }, 'Invalid URL.');
 
-exports.Link = mongoose.model('Link', linkSchema);
+export const Link = mongoose.model('Link', linkSchema);

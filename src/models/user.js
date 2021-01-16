@@ -22,4 +22,4 @@ userSchema.path('email').validate(function (email) {
   return emailRegex.test(email);
 }, 'Invalid email.');
 
-exports.User = mongoose.model('Link', userSchema);
+export const User = mongoose.model('Link', userSchema);
