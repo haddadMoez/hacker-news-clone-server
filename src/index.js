@@ -1,9 +1,12 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express');
 const logger = require('pino')();
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 require('./utils/db');
+
+const app = express();
 
 let links = [
   {
@@ -39,4 +42,12 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server.listen().then(({ url }) => logger.info(`Server is running on ${url}`));
+server.applyMiddleware({ app });
+
+app.use((req, res) => {
+  res.status(200);
+  res.send('Hello!');
+  res.end();
+});
+
+app.listen({port: PORT}, () => console.log(`🚀 Server ready at http://${HOST}:${PORT}${server.graphqlPath}`));
