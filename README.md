@@ -1,1 +1,1 @@
-# graphQL-practice-server
+# Hacker news clone
