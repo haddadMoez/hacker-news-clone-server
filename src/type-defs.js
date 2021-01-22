@@ -2,7 +2,8 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Query {
-    info: String!
+    feed: [Link!]!
+    linkById(id: ID!): Link!
   }
 
   type Mutation {

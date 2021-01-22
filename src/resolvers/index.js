@@ -1,13 +1,14 @@
 import { post } from './mutation';
-import _ from 'lodash';
+import { feed, linkById } from './query';
 
 const resolvers = {
-    Query: {
-        info: () => 'This is a simple query'
-    },
-    Mutation: {
-        post
-    }
-}
+  Query: {
+    feed,
+    linkById,
+  },
+  Mutation: {
+    post,
+  },
+};
 
 export { resolvers };
