@@ -3,7 +3,6 @@ import { gql } from 'apollo-server-express';
 export const typeDefs = gql`
   type Query {
     info: String!
-    feed: [Link!]!
   }
 
   type Mutation {
@@ -14,5 +13,9 @@ export const typeDefs = gql`
     id: ID!
     description: String!
     url: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
-`
+
+  scalar DateTime
+`;
