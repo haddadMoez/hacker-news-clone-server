@@ -1,9 +1,8 @@
-import 'dotenv/config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import db from './utils/db';
 import { PORT, HOST } from './constants';
-import { typeDefs } from './type-defs';
+import { typeDefs } from './schemas';
 import { resolvers } from './resolvers';
 
 const app = express();

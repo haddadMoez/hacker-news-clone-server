@@ -6,6 +6,7 @@ const connect = () => {
     .connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     })
     .then(() => console.log(`🚀 Connected to ${DB_NAME}`))
     .catch((error) => console.log(`${error}`));

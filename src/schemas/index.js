@@ -8,6 +8,14 @@ export const typeDefs = gql`
 
   type Mutation {
     post(url: String!, description: String!): Link!
+    signup(email: String!, name: String!, password: String!): User
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    links: [Link!]!
   }
 
   type Link {

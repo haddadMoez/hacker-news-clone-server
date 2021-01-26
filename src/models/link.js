@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 
 const linkSchema = new Schema(
   {
@@ -13,10 +13,5 @@ const linkSchema = new Schema(
   },
   { timestamps: true }
 );
-
-linkSchema.path('url').validate((val) => {
-  const urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
-  return urlRegex.test(val);
-}, 'Invalid URL.');
 
 export const Link = mongoose.model('Link', linkSchema);
