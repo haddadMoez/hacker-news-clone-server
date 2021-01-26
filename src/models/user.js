@@ -22,7 +22,6 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('validate', function (next) {
-  if (!this.isModified('password')) return next();
 
   if (_.size(this.password) < 8)
     throw new ApolloError(
