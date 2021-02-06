@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { ApolloError } from 'apollo-server';
 import _ from 'lodash';
 import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { PRIVATE_KEY } from '../constants';
 
 const userSchema = new Schema(
   {
@@ -22,7 +23,6 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('validate', function (next) {
-
   if (_.size(this.password) < 8)
     throw new ApolloError(
       'Password must have at least 8 characters',
@@ -51,11 +51,18 @@ userSchema.pre('validate', function (next) {
 });
 
 userSchema.pre('save', function (next) {
-
-  const salt = bcrypt.genSaltSync(7);
-  this.password = bcrypt.hashSync(this.password, salt);
-
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(7));
   next();
 });
+
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.createAccessToken = async function () {
+  return jwt.sign(_.pick(this, ['_id', 'email', 'name']), PRIVATE_KEY, {
+    expiresIn: '7d',
+  });
+};
 
 export const User = mongoose.model('User', userSchema);

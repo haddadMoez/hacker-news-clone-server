@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server';
+import { ApolloError, AuthenticationError } from 'apollo-server';
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 import { Link } from '../models/link';
@@ -44,4 +44,33 @@ const signup = async (parent, { email, name, password }) => {
     .catch((err) => new ApolloError(err, StatusCodes.BAD_REQUEST));
 };
 
-export { post, signup };
+const signin = async (parent, { email, password }) => {
+  if (_.isEmpty(email))
+    throw new ApolloError('Email is required!', StatusCodes.BAD_REQUEST);
+
+  if (!isValid(email))
+    throw new ApolloError('Invalid email!', StatusCodes.BAD_REQUEST);
+
+  if (_.isEmpty(password))
+    throw new ApolloError('Password is required!', StatusCodes.BAD_REQUEST);
+
+  const user = await User.findOne({ email }).catch(
+    (err) => new ApolloError(err, StatusCodes.BAD_REQUEST)
+  );
+
+  if (!user)
+    throw new AuthenticationError(
+      'Invalid email or password!',
+      StatusCodes.UNAUTHORIZED
+    );
+
+  if (!user.comparePassword(password))
+    throw new AuthenticationError(
+      'Invalid email or password!',
+      StatusCodes.UNAUTHORIZED
+    );
+
+  return {token: await user.createAccessToken()};
+};
+
+export { post, signup, signin };
