@@ -4,11 +4,13 @@ import { PORT, HOST } from './constants';
 import { typeDefs } from './schemas';
 import { resolvers } from './resolvers';
 
+db.connect();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
-db.connect();
-
-server.listen().then(({ url }) => console.log(`🚀 Server is running on ${url}`));
+server
+  .listen()
+  .then(({ url }) => console.log(`🚀 Server is running on ${url}`));
