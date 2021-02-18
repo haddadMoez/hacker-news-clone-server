@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Query {
-    feed: [Link!]!
+    feed: Feed!
     linkById(id: ID!): Link!
   }
 
@@ -12,8 +12,14 @@ export const typeDefs = gql`
     signin(email: String!, password: String!): AuthPayload
   }
 
+  type Feed {
+    id: ID!
+    links: [Link!]!
+    count: Int!
+  }
+
   type AuthPayload {
-    token: String,
+    token: String
   }
 
   type User {
