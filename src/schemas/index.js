@@ -8,7 +8,7 @@ export const typeDefs = gql`
 
   type Mutation {
     post(url: String!, description: String!): Link!
-    signup(email: String!, name: String!, password: String!): User
+    signup(email: String!, name: String!, password: String!): AuthPayload
     signin(email: String!, password: String!): AuthPayload
   }
 
