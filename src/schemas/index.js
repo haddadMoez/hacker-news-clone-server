@@ -19,7 +19,8 @@ export const typeDefs = gql`
   }
 
   type AuthPayload {
-    token: String
+    token: String,
+    user: User,
   }
 
   type User {

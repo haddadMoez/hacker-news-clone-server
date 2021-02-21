@@ -69,8 +69,7 @@ const signin = async (parent, { email, password }) => {
       'Invalid email or password!',
       StatusCodes.UNAUTHORIZED
     );
-
-  return {token: await user.createAccessToken()};
+  return {token: await user.createAccessToken(), user};
 };
 
 export { post, signup, signin };
