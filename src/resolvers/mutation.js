@@ -6,14 +6,22 @@ import { User } from '../models/user';
 import { isValid } from '../utils/validators/mail';
 import { isValid as isValidLink } from '../utils/validators/link';
 
-const post = async (parent, { description, url }) => {
+const post = async (
+  parent,
+  { description, url },
+  {
+    req: {
+      headers: { authorization, user },
+    },
+  }
+) => {
   if (_.isEmpty(url))
     throw new ApolloError('Url is required!', StatusCodes.BAD_REQUEST);
 
   if (!isValidLink(url))
     throw new ApolloError('Invalid url!', StatusCodes.BAD_REQUEST);
 
-  const link = new Link({ description, url });
+  const link = new Link({ description, url, postedBy: user });
   return link
     .save()
     .catch((err) => new ApolloError(err, StatusCodes.BAD_REQUEST));
@@ -69,7 +77,7 @@ const signin = async (parent, { email, password }) => {
       'Invalid email or password!',
       StatusCodes.UNAUTHORIZED
     );
-  return {token: await user.createAccessToken(), user};
+  return { token: await user.createAccessToken(), user };
 };
 
 export { post, signup, signin };
