@@ -65,4 +65,16 @@ userSchema.methods.createAccessToken = async function () {
   });
 };
 
+userSchema.statics.findByAccessToken = async function (token) {
+  if (_.isEmpty(token)) return null;
+
+  const payload = jwt.verify(token, PRIVATE_KEY);
+
+  const user = await this.findOne({ _id: payload._id });
+
+  if (_.isEmpty(user)) return null;
+
+  return user;
+};
+
 export const User = mongoose.model('User', userSchema);

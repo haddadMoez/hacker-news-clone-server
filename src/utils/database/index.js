@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DB_HOST, DB_PORT, DB_NAME } from '../constants';
+import { DB_HOST, DB_PORT, DB_NAME } from '../../constants';
 
 const connect = () => {
   return mongoose

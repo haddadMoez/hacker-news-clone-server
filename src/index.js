@@ -1,15 +1,26 @@
-import { ApolloServer } from 'apollo-server';
-import db from './utils/db';
-import { PORT, HOST } from './constants';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server';
+import { applyMiddleware } from 'graphql-middleware';
+import _ from 'lodash';
+
+import db from './utils/database';
+import permissions from './utils/auth/permissions';
 import { typeDefs } from './schemas';
 import { resolvers } from './resolvers';
+import { User } from './models/user';
 
 db.connect();
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req, res }) => ({ req, res })
+  schema: applyMiddleware(
+    makeExecutableSchema({ typeDefs, resolvers }),
+    permissions
+  ),
+  context: async ({ req }) => {
+    const user = await User.findByAccessToken(
+      _.get(req, 'headers.authorization', null)
+    );
+    return { ...req, user };
+  },
 });
 
 server
