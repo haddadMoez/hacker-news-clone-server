@@ -1,10 +1,9 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
 const mongoose = require('mongoose');
-import { StatusCodes, USE_PROXY } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 import { Link } from '../models/link';
 import { User } from '../models/user';
-import { Vote } from '../models/vote';
 import { isValid } from '../utils/validators/mail';
 import { isValid as isValidLink } from '../utils/validators/link';
 
@@ -87,7 +86,7 @@ const vote = async (parent, { linkId }, { user }) => {
     {
       $addToSet: { votes: user._id },
     },
-    { "new": true }
+    { new: true }
   );
 };
 
