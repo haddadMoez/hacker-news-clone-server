@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 import { Link } from '../models/link';
 import { User } from '../models/user';
+import { Vote } from '../models/vote';
 import { isValid } from '../utils/validators/mail';
 import { isValid as isValidLink } from '../utils/validators/link';
 
@@ -16,7 +17,7 @@ const post = async (parent, { description, url }, { user }) => {
   const link = new Link({
     description,
     url,
-    postedBy: _.get(user, '_id', null),
+    postedBy: user._id,
   });
   return link
     .save()
@@ -76,4 +77,23 @@ const signin = async (parent, { email, password }) => {
   return { token: await user.createAccessToken(), user };
 };
 
-export { post, signup, signin };
+const vote = async (parent, { linkId }, { user }) => {
+  const vote = await Vote.findOne({ link: linkId, user: user._id });
+
+  if (!_.isEmpty(vote))
+    throw new ApolloError(
+      'Already voted for this link',
+      StatusCodes.BAD_REQUEST
+    );
+
+  const newVote = new Vote({
+    link: linkId,
+    user: user._id,
+  });
+
+  return newVote
+    .save()
+    .catch((err) => new ApolloError(err, StatusCodes.BAD_REQUEST));
+};
+
+export { post, signup, signin, vote };

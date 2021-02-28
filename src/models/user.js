@@ -69,7 +69,7 @@ userSchema.statics.findByAccessToken = async function (token) {
   try {
     if (_.isEmpty(token)) return null;
 
-    const payload = jwt.verify(tken, PRIVATE_KEY);
+    const payload = jwt.verify(token, PRIVATE_KEY);
 
     const user = await this.findOne({ _id: payload._id });
 

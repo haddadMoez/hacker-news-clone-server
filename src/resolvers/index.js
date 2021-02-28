@@ -1,4 +1,4 @@
-import { post, signup, signin } from './mutation';
+import { post, signup, signin, vote } from './mutation';
 import { feed, linkById } from './query';
 
 const resolvers = {
@@ -10,6 +10,7 @@ const resolvers = {
     post,
     signup,
     signin,
+    vote,
   },
 };
 
