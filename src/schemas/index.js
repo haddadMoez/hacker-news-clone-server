@@ -10,13 +10,19 @@ export const typeDefs = gql`
     post(url: String!, description: String!): Link!
     signup(email: String!, name: String!, password: String!): AuthPayload
     signin(email: String!, password: String!): AuthPayload
-    vote(linkId: ID!): Link!
+    vote(linkId: ID!): Vote!
   }
 
   type Feed {
     id: ID!
     links: [Link!]!
     count: Int!
+  }
+
+  type Vote {
+    id: ID!
+    link: ID!
+    user: ID!
   }
 
   type AuthPayload {

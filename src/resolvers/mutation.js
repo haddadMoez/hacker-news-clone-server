@@ -91,7 +91,7 @@ const vote = async (parent, { linkId }, { user }) => {
   if (_.isEmpty(link))
     throw new ApolloError('Link does not exist', StatusCodes.BAD_REQUEST);
 
-  return link;
+  return {link: link._id, user: user._id};
 };
 
 export { post, signup, signin, vote };
