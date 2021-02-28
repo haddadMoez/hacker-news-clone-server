@@ -13,7 +13,7 @@ db.connect();
 const server = new ApolloServer({
   schema: applyMiddleware(
     makeExecutableSchema({ typeDefs, resolvers }),
-    permissions
+    // permissions
   ),
   context: async ({ req }) => {
     const user = await User.findByAccessToken(

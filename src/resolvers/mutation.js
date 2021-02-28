@@ -1,5 +1,6 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
-import { StatusCodes } from 'http-status-codes';
+const mongoose = require('mongoose');
+import { StatusCodes, USE_PROXY } from 'http-status-codes';
 import _ from 'lodash';
 import { Link } from '../models/link';
 import { User } from '../models/user';
@@ -17,6 +18,7 @@ const post = async (parent, { description, url }, { user }) => {
   const link = new Link({
     description,
     url,
+    votes: [],
     postedBy: user._id,
   });
   return link
@@ -78,22 +80,15 @@ const signin = async (parent, { email, password }) => {
 };
 
 const vote = async (parent, { linkId }, { user }) => {
-  const vote = await Vote.findOne({ link: linkId, user: user._id });
-
-  if (!_.isEmpty(vote))
-    throw new ApolloError(
-      'Already voted for this link',
-      StatusCodes.BAD_REQUEST
-    );
-
-  const newVote = new Vote({
-    link: linkId,
-    user: user._id,
-  });
-
-  return newVote
-    .save()
-    .catch((err) => new ApolloError(err, StatusCodes.BAD_REQUEST));
+  return Link.findOneAndUpdate(
+    {
+      _id: linkId,
+    },
+    {
+      $addToSet: { votes: user._id },
+    },
+    { "new": true }
+  );
 };
 
 export { post, signup, signin, vote };

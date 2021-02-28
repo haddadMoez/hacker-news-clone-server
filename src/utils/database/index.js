@@ -7,6 +7,7 @@ const connect = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false
     })
     .then(() => console.log(`🚀 Connected to ${DB_NAME}`))
     .catch((error) => console.log(`${error}`));

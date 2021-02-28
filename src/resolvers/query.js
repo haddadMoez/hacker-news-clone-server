@@ -2,7 +2,7 @@ import { Link } from '../models/link';
 import _ from 'lodash';
 
 const feed = async () => {
-  const links = await Link.find({});
+  const links = await Link.find({}).populate('postedBy');
   return {
     id: 'main-feed',
     links,

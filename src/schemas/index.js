@@ -10,13 +10,7 @@ export const typeDefs = gql`
     post(url: String!, description: String!): Link!
     signup(email: String!, name: String!, password: String!): AuthPayload
     signin(email: String!, password: String!): AuthPayload
-    vote(linkId: ID!): Vote
-  }
-
-  type Vote {
-    id: ID!
-    link: ID!
-    user: ID!
+    vote(linkId: ID!): Link!
   }
 
   type Feed {
@@ -41,9 +35,10 @@ export const typeDefs = gql`
     id: ID!
     description: String!
     url: String!
+    postedBy: User
     createdAt: DateTime!
     updatedAt: DateTime!
-    votes: [Vote!]!
+    votes: [String!]!
   }
 
   scalar DateTime
