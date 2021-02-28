@@ -78,7 +78,7 @@ const signin = async (parent, { email, password }) => {
 };
 
 const vote = async (parent, { linkId }, { user }) => {
-  return Link.findOneAndUpdate(
+  const link = await Link.findOneAndUpdate(
     {
       _id: linkId,
     },
@@ -87,6 +87,11 @@ const vote = async (parent, { linkId }, { user }) => {
     },
     { new: true }
   );
+
+  if (_.isEmpty(link))
+    throw new ApolloError('Link does not exist', StatusCodes.BAD_REQUEST);
+
+  return link;
 };
 
 export { post, signup, signin, vote };
