@@ -1,5 +1,4 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
-const mongoose = require('mongoose');
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 import { Link } from '../models/link';
