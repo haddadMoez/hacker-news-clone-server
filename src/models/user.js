@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { ApolloError } from 'apollo-server';
 import _ from 'lodash';
-import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { PRIVATE_KEY } from '../constants';
@@ -26,25 +25,21 @@ userSchema.pre('validate', function (next) {
   if (_.size(this.password) < 8)
     throw new ApolloError(
       'Password must have at least 8 characters',
-      StatusCodes.BAD_REQUEST
     );
 
   if (!/[0-9]/.test(this.password))
     throw new ApolloError(
       'Password must have a number',
-      StatusCodes.BAD_REQUEST
     );
 
   if (!/[a-z]/.test(this.password))
     throw new ApolloError(
       'Password must have a lower case letter',
-      StatusCodes.BAD_REQUEST
     );
 
   if (!/[A-Z]/.test(this.password))
     throw new ApolloError(
       'Password must have an upper case letter',
-      StatusCodes.BAD_REQUEST
     );
 
   next();
