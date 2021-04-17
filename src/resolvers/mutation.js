@@ -5,7 +5,7 @@ import { Link } from '../models/link';
 import { User } from '../models/user';
 import { isValid } from '../utils/validators/mail';
 import { isValid as isValidLink } from '../utils/validators/link';
-import { NEW_LINK } from '../constants';
+import { NEW_LINK, NEW_VOTE } from '../constants';
 
 const post = async (parent, { description, url }, { user, pubsub }) => {
   if (_.isEmpty(url)) throw new ApolloError('Url is required!');
@@ -19,9 +19,10 @@ const post = async (parent, { description, url }, { user, pubsub }) => {
     postedBy: user._id,
   });
 
-  let newLink = await link.save()
-  .then(res => res.populate('postedBy').execPopulate())
-  .catch((err) => new ApolloError(err));
+  let newLink = await link
+    .save()
+    .then((res) => res.populate('postedBy').execPopulate())
+    .catch((err) => new ApolloError(err));
 
   pubsub.publish(NEW_LINK, newLink);
   return newLink;
@@ -64,7 +65,7 @@ const signin = async (parent, { email, password }) => {
   return { token: await user.createAccessToken(), user };
 };
 
-const vote = async (parent, { linkId }, { user }) => {
+const vote = async (parent, { linkId }, { user, pubsub }) => {
   const link = await Link.findOneAndUpdate(
     {
       _id: linkId,
@@ -77,7 +78,11 @@ const vote = async (parent, { linkId }, { user }) => {
 
   if (_.isEmpty(link)) throw new ApolloError('Link does not exist');
 
-  return { link: link._id, user: user._id };
+  const newLink = { link: link._id, user: user._id };
+  
+  pubsub.publish(NEW_VOTE, newLink);
+
+  return newLink;
 };
 
 export { post, signup, signin, vote };

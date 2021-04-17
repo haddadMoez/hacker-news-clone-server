@@ -8,3 +8,4 @@ export const {
 } = process.env;
 
 export const NEW_LINK = 'NEW_LINK';
+export const NEW_VOTE = 'NEW_VOTE';

@@ -1,8 +1,7 @@
-import { NEW_LINK } from '../constants';
+import { NEW_LINK, NEW_VOTE } from '../constants';
 
-const newLinkSubscribe = (parent, args, context, info) => {
-  return context.pubsub.asyncIterator(NEW_LINK);
-};
+const newLinkSubscribe = (parent, args, context, info) =>
+  context.pubsub.asyncIterator(NEW_LINK);
 
 const newLink = {
   subscribe: newLinkSubscribe,
@@ -11,6 +10,17 @@ const newLink = {
   },
 };
 
+const newVoteSubscribe = (parent, args, context, info) =>
+  context.pubsub.asyncIterator(NEW_VOTE);
+
+const newVote = {
+  subscribe: newVoteSubscribe,
+  resolve: (payload) => {
+    return payload;
+  },
+};
+
 module.exports = {
   newLink,
+  newVote,
 };

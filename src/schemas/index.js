@@ -15,6 +15,7 @@ export const typeDefs = gql`
 
   type Subscription {
     newLink: Link
+    newVote: Vote
   }
 
   type Feed {
