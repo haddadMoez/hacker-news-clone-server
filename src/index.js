@@ -1,4 +1,4 @@
-import { ApolloServer, makeExecutableSchema } from 'apollo-server';
+import { ApolloServer, makeExecutableSchema, PubSub } from 'apollo-server';
 import { applyMiddleware } from 'graphql-middleware';
 import _ from 'lodash';
 
@@ -10,6 +10,8 @@ import { User } from './models/user';
 
 db.connect();
 
+const pubsub = new PubSub()
+
 const server = new ApolloServer({
   schema: applyMiddleware(
     makeExecutableSchema({ typeDefs, resolvers }),
@@ -19,7 +21,7 @@ const server = new ApolloServer({
     const user = await User.findByAccessToken(
       _.get(req, 'headers.authorization', null)
     );
-    return { ...req, user };
+    return { ...req, pubsub, user };
   },
 });
 

@@ -13,6 +13,10 @@ export const typeDefs = gql`
     vote(linkId: ID!): Vote!
   }
 
+  type Subscription {
+    newLink: Link
+  }
+
   type Feed {
     id: ID!
     links: [Link!]!

@@ -6,3 +6,5 @@ export const {
   PORT,
   PRIVATE_KEY,
 } = process.env;
+
+export const NEW_LINK = 'NEW_LINK';

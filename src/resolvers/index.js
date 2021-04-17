@@ -1,5 +1,6 @@
 import { post, signup, signin, vote } from './mutation';
 import { feed, linkById } from './query';
+import { newLink } from './subscription';
 
 const resolvers = {
   Query: {
@@ -11,6 +12,9 @@ const resolvers = {
     signup,
     signin,
     vote,
+  },
+  Subscription: {
+    newLink,
   },
 };
 
