@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Query {
-    feed: Feed!
+    feed(filter: String): Feed!
     linkById(id: ID!): Link!
   }
 

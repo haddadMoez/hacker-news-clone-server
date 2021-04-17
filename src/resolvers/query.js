@@ -1,8 +1,13 @@
 import { Link } from '../models/link';
 import _ from 'lodash';
 
-const feed = async () => {
-  const links = await Link.find({}).populate('postedBy');
+const feed = async (parent, { filter }, context, info) => {
+  const conditions = filter
+    ? {
+        $or: [{ url: filter }, { description: filter }],
+      }
+    : {};
+  const links = await Link.find(conditions).populate('postedBy');
   return {
     id: 'main-feed',
     links,
