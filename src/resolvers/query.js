@@ -22,7 +22,7 @@ const feed = async (parent, args, context, info) => {
     .limit(limit);
 
   const count = links.length;
-  const total = await Link.count({});
+  const total = await Link.count();
 
   return {
     id: 'main-feed',
