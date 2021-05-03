@@ -11,7 +11,7 @@ const feed = async (parent, args, context, info) => {
       }
     : {};
 
-  const sort = { _id: 1 };
+  const sort = args.sort || '_id';
   const limit = args.limit || LIMIT;
   const skip = args.skip > 0 ? (args.skip - 1) * limit : 0;
 
@@ -21,10 +21,14 @@ const feed = async (parent, args, context, info) => {
     .skip(skip)
     .limit(limit);
 
+  const count = links.length;
+  const total = await Link.count({});
+
   return {
     id: 'main-feed',
     links,
-    count: links.length,
+    total,
+    count,
   };
 };
 

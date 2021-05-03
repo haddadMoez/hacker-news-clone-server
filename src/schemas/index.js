@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Query {
-    feed(filter: String, skip: Int, limit: Int): Feed!
+    feed(filter: String, skip: Int, limit: Int, sort: LinkOrderByInput): Feed!
     linkById(id: ID!): Link!
   }
 
@@ -22,6 +22,7 @@ export const typeDefs = gql`
     id: ID!
     links: [Link!]!
     count: Int!
+    total: Int!
   }
 
   type Vote {
@@ -50,6 +51,17 @@ export const typeDefs = gql`
     createdAt: DateTime!
     updatedAt: DateTime!
     votes: [String!]!
+  }
+
+  input LinkOrderByInput {
+    description: Sort
+    url: Sort
+    createdAt: Sort
+  }
+
+  enum Sort {
+    asc
+    desc
   }
 
   scalar DateTime
