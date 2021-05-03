@@ -10,7 +10,7 @@ import { User } from './models/user';
 
 db.connect();
 
-const pubsub = new PubSub()
+const pubsub = new PubSub();
 
 const server = new ApolloServer({
   schema: applyMiddleware(

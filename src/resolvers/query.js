@@ -1,13 +1,26 @@
 import { Link } from '../models/link';
 import _ from 'lodash';
 
-const feed = async (parent, { filter }, context, info) => {
-  const conditions = filter
+import { PAGINATION } from '../constants';
+
+const feed = async (parent, args, context, info) => {
+  const { LIMIT } = PAGINATION;
+  const conditions = args.filter
     ? {
-        $or: [{ url: filter }, { description: filter }],
+        $or: [{ url: args.filter }, { description: args.filter }],
       }
     : {};
-  const links = await Link.find(conditions).populate('postedBy');
+
+  const sort = { _id: 1 };
+  const limit = args.limit || LIMIT;
+  const skip = args.skip > 0 ? (args.skip - 1) * limit : 0;
+
+  const links = await Link.find(conditions)
+    .populate('postedBy')
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+
   return {
     id: 'main-feed',
     links,

@@ -9,3 +9,7 @@ export const {
 
 export const NEW_LINK = 'NEW_LINK';
 export const NEW_VOTE = 'NEW_VOTE';
+
+export const PAGINATION = {
+  LIMIT: 10,
+};
