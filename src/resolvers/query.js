@@ -13,7 +13,7 @@ const feed = async (parent, args, context, info) => {
 
   const sort = args.sort || '_id';
   const limit = args.limit || LIMIT;
-  const skip = args.skip > 0 ? (args.skip - 1) * limit : 0;
+  const skip = args.skip;
 
   const links = await Link.find(conditions)
     .populate('postedBy')
